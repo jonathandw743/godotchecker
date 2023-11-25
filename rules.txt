@@ -1,0 +1,25 @@
+every unit behaviour should be a node with a script
+all references whould be @export var
+signals should be made with a .connect to an @export var
+nodes can be grouped together. The parent node should not have a script. This behaviour should be contained within a child node.
+editable schildren should only have their @export var(s) changed and be referenced by other scripts in the other script's @export var(s).
+for example, editable children should not be deleted, or have scripts added to them.
+if editable children would need to be deleted, that group of nodes should not be used.
+if a script is needed, it should be added as another node and reference the required nodes
+all scripts should have a class_name
+scripts may inherit only godot nodes
+
+possibly:
+
+scripts should only be used on nodes, not godot nodes like characterbody2d and camera, etc
+or
+scripts on godot nodes like characterbody2d and camera, etc should only have @export var(s) to add attributes
+these scripts are "reference scripts". They should inherit Node
+
+scripts may only inherit node
+
+there are some scripts which just have attributes. these are value scripts
+
+ScriptName
+r_ScriptName
+v_StrictName
