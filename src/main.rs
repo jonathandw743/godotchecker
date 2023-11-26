@@ -50,8 +50,6 @@ fn visit_dirs<const N: usize>(
     Ok(files)
 }
 
-
-
 fn check_value_script_isolated(script: &Script) -> Result<()> {
     script.check_matching_script_name_and_class_name()?;
     script.check_extends_node()?;
@@ -113,7 +111,25 @@ fn main() -> Result<()> {
     let path = path::Path::new(r"C:\Users\jonathan\files\godot-projects\pushgame");
 
     let script_paths: Vec<path::PathBuf> = visit_dirs(path, "gd", [".godot", "addons"]).unwrap();
-
+    let rel_script_paths: Vec<&path::Path> = script_paths
+        .iter()
+        .filter_map(|script_path| match script_path.strip_prefix(path) {
+            Ok(rel_path) => Some(rel_path),
+            Err(_) => None,
+        })
+        .collect();
+    if rel_script_paths.len() < script_paths.len() {
+        return Err(anyhow!("something went wrong when finding relative paths"));
+    }
+    let gd_script_paths: Vec<String> = rel_script_paths
+        .iter()
+        .map(|rel_script_path| {
+            format!(
+                "res://{}",
+                rel_script_path.to_string_lossy().replace(r"\", r"/")
+            )
+        })
+        .collect();
     let mut scripts: Vec<Script> = Vec::new();
 
     for script_path in script_paths {

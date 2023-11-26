@@ -10,7 +10,6 @@ fn get_class_name_and_extends_from_line(line: &str) -> Result<(Option<&str>, Opt
         }
         let rest_of_line: Vec<&str> = class_name.splitn(1, " ").collect();
         let class_name = rest_of_line[0];
-        dbg!(rest_of_line.clone());
         if let Some(extends) = rest_of_line[1].strip_prefix("extends ") {
             return Ok((Some(class_name), Some(extends)));
         }
@@ -103,7 +102,6 @@ impl Script {
             }
         }
 
-        dbg!(full_name.clone(), class_name.clone(), extends.clone());
 
         return Ok(Self {
             full_name,
@@ -156,7 +154,6 @@ impl Script {
             {
                 continue;
             }
-            dbg!(trimmed);
             if !trimmed.starts_with("@export var ") {
                 return Err(anyhow!(
                     "{} contains a non @export var statement",
