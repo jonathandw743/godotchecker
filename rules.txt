@@ -23,3 +23,10 @@ there are some scripts which just have attributes. these are value scripts
 ScriptName
 r_ScriptName
 v_StrictName
+
++ @export var foo: Foo
+- @export var foo
+
++ var foo: Foo = create_foo()
++ var foo := create_foo()
+- var foo = create_foo()
