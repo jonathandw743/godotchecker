@@ -1,6 +1,6 @@
-use std::{fs, path, io};
 use anyhow::{anyhow, Result};
 use io::Read;
+use std::{fs, io, path};
 
 fn get_class_name_and_extends_from_line(line: &str) -> Result<(Option<&str>, Option<&str>), &str> {
     if let Some(class_name) = line.trim().strip_prefix("class_name ") {
@@ -41,10 +41,11 @@ pub struct Script {
     pub kind: ScriptKind,
     pub class_name: Option<String>,
     pub extends: Option<String>,
+    pub gd_path: String,
 }
 
 impl Script {
-    pub fn new(path: path::PathBuf) -> Result<Self> {
+    pub fn new(path: path::PathBuf, gd_path: String) -> Result<Self> {
         let mut file = fs::File::open(path.clone())?;
         let mut contents = String::new();
         file.read_to_string(&mut contents)?;
@@ -102,7 +103,6 @@ impl Script {
             }
         }
 
-
         return Ok(Self {
             full_name,
             name,
@@ -111,6 +111,7 @@ impl Script {
             kind,
             class_name,
             extends,
+            gd_path,
         });
     }
 
